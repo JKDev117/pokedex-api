@@ -43,6 +43,13 @@ const validTypes = [`Bug`, `Dark`, `Dragon`, `Electric`, `Fairy`, `Fighting`,
 `Fire`, `Flying`, `Ghost`, `Grass`, `Ground`, `Ice`, `Normal`, `Poison`, 
 `Psychic`, `Rock`, `Steel`, `Water`]
 
+
+/*
+In previous checkpoints, we've built our endpoints by writing the callback 
+as an anonymous function. That approach is still valid, but here we'll begin
+to separate the callback out into a named function (e.g. handleGetTypes [see below]) 
+as the modularity and reusability of our code become more important.
+*/
 app.get('/types', handleGetTypes);
 
 function handleGetTypes(req,res){
