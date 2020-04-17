@@ -31,8 +31,7 @@ app.use(function validateBearerToken(req, res, next) {
   const apiToken = process.env.API_TOKEN; //see 17.6 pg. 15
   const authToken = req.get("Authorization");
 
-  //console.log('validate bearer token middleware'); //console.log's should be removed for production code (17.7)
-})
+  console.log('validate bearer token middleware');
 
   //pg. 17
   if(!authToken || authToken.split(' ')[1] !== apiToken){
@@ -43,6 +42,7 @@ app.use(function validateBearerToken(req, res, next) {
 
   // next() = move to the next middleware (p. 12)
   next();
+})
 
 
 const validTypes = [`Bug`, `Dark`, `Dragon`, `Electric`, `Fairy`, `Fighting`, 
