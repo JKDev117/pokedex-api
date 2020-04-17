@@ -18,7 +18,12 @@ const POKEDEX = require('./pokedex.json');
 
 const app = express();
 
-app.use(morgan('dev'));
+//check to see if the NODE_ENV is set to "production" or not
+const morganSetting = process.env.NODE_ENV === 'production' ? 'tiny': 'common'; //17.7
+//set the value for morgan as appropriate
+app.use(morgan(morganSetting)); //17.7
+
+
 app.use(helmet()); //make sure to place helmet before cors in the pipeline (p. 27)
 app.use(cors());
 
@@ -26,7 +31,8 @@ app.use(function validateBearerToken(req, res, next) {
   const apiToken = process.env.API_TOKEN; //see 17.6 pg. 15
   const authToken = req.get("Authorization");
 
-  console.log('validate bearer token middleware');
+  //console.log('validate bearer token middleware'); //console.log's should be removed for production code (17.7)
+})
 
   //pg. 17
   if(!authToken || authToken.split(' ')[1] !== apiToken){
@@ -79,15 +85,34 @@ function handleGetPokemon(req, res) {
   res.json(response);
 }
 
+// 4 parameters in middleware, express knows to treat this as error handler (17.7)
+app.use((error, req, res, next) => {
+  let response
+  if (process.env.NODE_ENV === 'production') {
+    response = { error: { message: 'server error' }}
+  } else {
+    response = { error }
+  }
+  res.status(500).json(response)
+})
 
 
 const PORT = process.env || 8000;
 
 app.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`)
+  //console.log(`Server listening at http://localhost:${PORT}`) //console.log's should be removed for production code (17.7)
 })
 
 
+/* Notes
 
+NODE_ENV is a standard environmental variable for Node applications that determines if the application is running in production 
+or some other environment. When we deploy to production, Heroku will set this environmental variable to a value of "production". 
+So, we can check to see if the NODE_ENV is set to "production" or not, and set the value for morgan as appropriate. (17.7, pg. 6)
+
+
+
+
+*/
 
 
