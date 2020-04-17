@@ -43,7 +43,7 @@ app.use(function validateBearerToken(req, res, next) {
 
   // next() = move to the next middleware (p. 12)
   next();
-})
+
 
 const validTypes = [`Bug`, `Dark`, `Dragon`, `Electric`, `Fairy`, `Fighting`, 
 `Fire`, `Flying`, `Ghost`, `Grass`, `Ground`, `Ice`, `Normal`, `Poison`, 
